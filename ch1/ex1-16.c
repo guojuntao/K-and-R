@@ -5,3 +5,5 @@
 // much as possible of the text.
 
 #include <stdio.h>
+
+int main()
