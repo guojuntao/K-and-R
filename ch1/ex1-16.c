@@ -6,4 +6,32 @@
 
 #include <stdio.h>
 
-int main()
+#define MAX_LINE 1000
+
+int get_line(char line[]);
+
+int main() {
+  char line[MAX_LINE];
+
+  while (get_line(line) > 0) {
+    printf("%s", line);
+  }
+
+  return 0;
+}
+
+int get_line(char s[]) {
+  int c;
+  int i;
+
+  for (i = 0; i < MAX_LINE - 1 && (c = getchar()) != EOF && c != '\n'; ++i) {
+    s[i] = c;
+  }
+  if (c == '\n') {
+    s[i] = c;
+    ++i;
+  }
+  s[i] = '\0';
+
+  return i;
+}
