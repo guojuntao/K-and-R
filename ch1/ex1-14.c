@@ -9,10 +9,10 @@
 #define CHAR_NUM 26
 
 int main() {
-  int i, j;
+  int i;
   int read_char;
   int char_counters[CHAR_NUM] = { 0 };
-  int char_frequency[CHAR_NUM];
+  double char_frequency[CHAR_NUM];
   int all_char_counter = 0;
 
   while ((read_char = getchar()) != EOF) {
@@ -27,17 +27,18 @@ int main() {
     all_char_counter += char_counters[i];
   }
   for (i = 0; i < CHAR_NUM; ++i) {
-    char_frequency[i] = char_counters[i] * 100 
-                                / all_char_counter;
+    char_frequency[i] = char_counters[i] * 100.0
+        / all_char_counter;
   }
 
   printf("character frequency\n");
   for (i = 0; i < CHAR_NUM; ++i) {
+    int j;
     printf("%c         ", 'a' + i); 
     for (j = 0; j < char_frequency[i]; ++j) {
       printf("*");
     }
-    printf("%d%%\n", char_frequency[i]);
+    printf("%4.2f%%\n", char_frequency[i]);
   }
 
   return 0;

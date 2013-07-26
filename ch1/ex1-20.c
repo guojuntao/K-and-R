@@ -6,3 +6,28 @@
 // parameter?
 
 #include <stdio.h>
+
+#define TAB_LEN 8
+
+int main() {
+  int column = 0;
+  int c;
+
+  while ((c = getchar()) != EOF) {
+    if (c != '\t') {
+      putchar(c);
+      ++column;
+      if (c == '\n' || c == '\r') {
+        column = 0;
+      }
+    } else {
+      int blank_num = TAB_LEN - (column % TAB_LEN);
+      int j;
+      for (j = 0; j < blank_num; ++j) {
+        putchar(' ');
+      }
+    }
+  }
+
+  return 0;
+}

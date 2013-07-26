@@ -22,6 +22,7 @@ int main() {
             // fall-through
           default:
             putchar(c);
+            break;
         }
         break;
       case kInsideSpaces:

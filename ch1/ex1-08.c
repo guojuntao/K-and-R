@@ -13,13 +13,13 @@ int main() {
   while ((c = getchar()) != EOF) {
     switch(c) {
       case ' ':
-        blank_count++;
+        ++blank_count;
         break;
       case '\t':
-        tab_count++;
+        ++tab_count;
         break;
       case '\n':
-        newline_count++;
+        ++newline_count;
         break;
       default:
         break;

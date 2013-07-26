@@ -10,7 +10,7 @@
 
 int main() {
   int word_length_counters[MAX_WORD_LENGTH] = { 0 };
-  int i, j;
+  int i;
   int read_char;
   int word_length;  
   int max_counter = 0;
@@ -33,7 +33,9 @@ int main() {
             ++word_length_counters[word_length - 1];
             break;
           default:
-            ++word_length;
+            if (word_length <= MAX_WORD_LENGTH) {
+              ++word_length;
+            }
             break;
         }
         break;
@@ -57,6 +59,7 @@ int main() {
   // draw the histogram with the bars horizontally
   printf("Length\twords\n");
   for (i = 0; i < MAX_WORD_LENGTH; ++i) {
+    int j;
     printf("%d\t", i + 1);
     for (j = 0;
          j < word_length_counters[i];
@@ -69,16 +72,18 @@ int main() {
   
   // draw the histogram with a vertical orientation
   for (i = 0; i < MAX_WORD_LENGTH; ++i) {
+    int j;
     if (word_length_counters[i] > max_counter) {
       max_counter = word_length_counters[i];
     }
   }
-  for (j = max_counter; j >= 0; --j) {
-    for (i = 0; i < MAX_WORD_LENGTH; ++i) {
-      if (word_length_counters[i] > j) {
+  for (i = max_counter; i >= 0; --i) {
+    int j;
+    for (j = 0; j < MAX_WORD_LENGTH; ++j) {
+      if (word_length_counters[j] > i) {
         printf(" * ");
-      } else if (word_length_counters[i] == j) {
-        printf("%3d", word_length_counters[i]);
+      } else if (word_length_counters[j] == i) {
+        printf("%3d", word_length_counters[j]);
       } else {
         printf("   ");
       }
