@@ -7,48 +7,49 @@
 
 #define BUF_SIZE 4096
 
-// TODO: comment it. Change program structure
-int HandleLine();
-
 int main() {
-  while (HandleLine() != 0) {
-  }
-  return 0;
-}
-
-int HandleLine() {
   int c;
   int i;
   int flag_empty_line = 1;
-  int blanks_length = 0;
+  int blank_length = 0;
   int blanks[BUF_SIZE];
   enum State {
     kBlanks,
-    kWord
+    kWord,
   };
   enum State state = kBlanks;
 
-  while ((c = getchar()) != EOF && c != '\n') {
+  while ((c = getchar()) != EOF) {
     switch (state) {
       case kBlanks:
         switch (c) {
           case ' ':
           case '\t':
           case '\v':
-            if (blanks_length <= BUF_SIZE) {
-              blanks[blanks_length++] = c;
+            if (blank_length <= BUF_SIZE) {
+              blanks[blank_length++] = c;
+            } else {
+              printf("The buffer is full.\n");
+              return 1;
             }
-            // TODO: Handle error
+            break;
+          case '\n':
+          case '\r':
+            if (flag_empty_line == 0) {
+              putchar(c);
+            }
+            flag_empty_line = 1;
+            blank_length = 0;
             break;
           default:
             state = kWord;
             if (flag_empty_line == 1) {
               flag_empty_line = 0;
             }
-            for (i = 0; i < blanks_length; ++i) {
+            for (i = 0; i < blank_length; ++i) {
               printf("%c", blanks[i]);
             }
-            blanks_length = 0;
+            blank_length = 0;
             putchar(c);
             break;
         }
@@ -56,10 +57,17 @@ int HandleLine() {
       case kWord:
         switch (c) {
           case ' ':
-          case '\n':
+          case '\t':
           case '\v':
             state = kBlanks;
-            blanks[blanks_length++] = c;
+            blanks[blank_length++] = c;
+            break;
+          case '\n':
+          case '\r':
+            putchar(c);
+            state = kBlanks;
+            flag_empty_line = 1;
+            blank_length = 0;
             break;
           default:
             putchar(c);
@@ -70,12 +78,5 @@ int HandleLine() {
         break;
     }
   }
-  if (c != EOF) {
-    if (flag_empty_line == 0) {
-      putchar(c);
-    }
-    return 1;
-  } else {
-    return 0;
-  }
+  return 0;
 }

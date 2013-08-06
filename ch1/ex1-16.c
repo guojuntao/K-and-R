@@ -9,10 +9,11 @@
 
 #define BUF_SIZE 4096
 
-// TODO: comment it
+// Read a line from standard input and store it in the string line[BUF_SIZE],
+// return the length of the line. 
 int GetLine(char line[]);
 
-// TODO: comment it
+// Reverse string s[] from the location start to end: s[start, end).
 void ReverseString(char s[], int start, int end);
 
 int main() {
@@ -45,8 +46,10 @@ int GetLine(char s[]) {
   enum State {
     kPrintHead = 0,
     kPrintTail,
-  }
-  // TODO: comment it
+  };
+  // If the line's length is longger than BUF_SIZE, it will print the first
+  // BUF_SIZE bytes in the line when state is equal kPrintHead and print the
+  // last BUF_SIZE bytes in the line when state is kPrintTail.
   enum State state = kPrintTail;
 
   for (i = 0, j = 0; (c = getchar()) != EOF && c != '\n'; ++i) {

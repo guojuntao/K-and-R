@@ -8,11 +8,12 @@
 
 #define BUF_SIZE 4096 
 
-// 
-void StringReverse(char s[], int start, int end);
-
-//
+// Read a line from standard input and store it in the string line[BUF_SIZE],
+// return the length of the line.
 int GetLine(char s[]);
+
+// Reverse string s[] from the location start to end: s[start, end).
+void StringReverse(char s[], int start, int end);
 
 int main() {
   int string_length;

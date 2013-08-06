@@ -8,47 +8,44 @@
 #include <stdio.h>
 
 #define TAB_LEN 8
-#define BUF_SIZE 4096
 
-// When either a tab or a single blank would suffice to reach a tab stop,
-// choose a tab.
+// When either a tab or a single blank would suffice to reach a tab stop, choose
+// a blank.
 int main() {
   int column = 0;
-  int blank_len = 0;
+  int space_counter = 0;
   int c;
-  int blanks[BUF_SIZE];
 
   while ((c = getchar()) !=EOF) {
     if (c != ' ') {
-      ++column;
-      if (blank_len > 0) {
-        int start = column - blank_len;
-        int fill_len;
-        int j;
-        while ((fill_len = TAB_LEN - start % TAB_LEN) <= blank_len) {
-          putchar('\t');
-          blank_len -= fill_len;
-          start += fill_len;
-        }
-        for (j = 0; j < blank_len; ++j) {
+      if (c == '\t') {
+        putchar(c);
+        space_counter = 0;
+        column = (column / TAB_LEN + 1) * TAB_LEN; 
+      } else {
+        int i;
+        for (i = 0; i < space_counter; ++i) {
           putchar(' ');
         }
-        blank_len = 0;
+        putchar(c);
+        space_counter = 0;
+        ++column;
+        if (c == '\n') {
+          column = 0;
+        }
       }
-      putchar(c);
-      if (c == '\n' || c == '\r') {
-        column = 0;
-      } 
     } else {
-      if (blank_len <= BUF_SIZE) {
-        blanks[blank_len++] = c;
-      } else {
-	printf("The buffer of 4096 Byte is full.");
-	return 1;
-      }
+      ++space_counter;
       ++column;
+      if (column % TAB_LEN == 0) {
+        if (space_counter == 1) {
+          putchar(' ');
+        } else {
+          putchar('\t');
+        }
+        space_counter = 0;
+      }
     }
-  }
-
+  } 
   return 0;
 }
