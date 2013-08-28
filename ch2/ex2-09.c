@@ -5,3 +5,22 @@
 // version of bitcount.
 
 #include <stdio.h>
+
+int bitcount(unsigned int x);
+
+int main() {
+  unsigned int x;
+  while (scanf("%u", &x) == 1) {
+    printf("%d\n", bitcount(x));
+  }
+  return 0;
+}
+
+int bitcount(unsigned int x) {
+  int counter = 0;
+  while (x != 0) {
+    x &= (x - 1);
+    ++counter;
+  }
+  return counter;
+}

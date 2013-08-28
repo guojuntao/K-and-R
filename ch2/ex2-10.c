@@ -4,3 +4,17 @@
 // letters to lower case, with a conditional expression instead of if-else.
 
 #include <stdio.h>
+
+int lower(int c);
+
+int main() {
+  int c;
+  while ((c = getchar()) != EOF) {
+    printf("%c\n", lower(c));
+  }
+  return 0;
+}
+
+int lower(int c) {
+  return (c >= 'A' && c <= 'Z') ? (c - 'A' + 'a') : c;
+}
