@@ -7,3 +7,18 @@
 // taken literally.
 
 #include <stdio.h>
+
+int expand(s1, s2) {
+  int i = 0;
+  int j = 0;
+  while (s1[i] != '\0') {
+    if (s1[i] >= 'a' && s1[i] <= 'z') {
+      if (s1[i + 1] == '-' && s1[i + 2] >= 'a' && s1[i + 2] <= 'z' && 
+        s1[i] < s1[i + 2]) {
+        while (s2[j] < s1[i + 2]) {
+          
+        }
+      }
+    }
+  }
+}
