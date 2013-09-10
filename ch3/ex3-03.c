@@ -6,19 +6,68 @@
 // cases like a-b-c and a-z0-9 and -a-z. Arrange that a leading or tailing - is
 // taken literally.
 
-#include <stdio.h>
+#include <assert.h>
+#include <string.h>
 
-int expand(s1, s2) {
+#define BUFSIZE 40
+
+// This function expands shorthand notations in the string src into equivalent
+// complete list in string dest.
+// Return the string dest's length.
+int expand(char dest[], int dest_limit, char src[], int src_length);
+
+int main() { 
+  char dest[BUFSIZE];
+  expand(dest, BUFSIZE, "a-z", strlen("a-z"));
+  assert(!strcmp(dest, "abcdefghijklmnopqrstuvwxyz"));
+  expand(dest, BUFSIZE, "-0-9-", strlen("-0-9-"));
+  assert(!strcmp(dest, "-0123456789-"));
+  expand(dest, BUFSIZE, "a-g0-9", strlen("a-g0-9"));
+  assert(!strcmp(dest, "abcdefg0123456789"));
+  return 0;
+}
+
+int expand(char dest[], int dest_limit, char src[], int src_length) {
   int i = 0;
   int j = 0;
-  while (s1[i] != '\0') {
-    if (s1[i] >= 'a' && s1[i] <= 'z') {
-      if (s1[i + 1] == '-' && s1[i + 2] >= 'a' && s1[i + 2] <= 'z' && 
-        s1[i] < s1[i + 2]) {
-        while (s2[j] < s1[i + 2]) {
-          
+  while (src[i] != '\0' && i < src_length) {
+    if (src[i] != '-') {
+      if (src[i + 1] != '\0' && i + 1 < src_length && src[i + 1] == '-') {
+        if (src[i + 2] != '\0' && i + 2 < src_length) {
+          char c; // c is an temp character.
+          c = src[i];
+          while (c < src[i + 2]) {
+            dest[j++] = c;
+            if (j == dest_limit) {
+              return j;
+            }
+            c = c + 1;
+          }
+          i = i + 2;
+        } else { // Handle a tailing '-'
+          dest[j++] = src[i];
+          if (j == dest_limit) {
+            return j;
+          }
+          dest[j++] = src[i + 1];
+          dest[j] = '\0';
+          return j;
         }
+      } else { // Handle a character close to another character
+        dest[j++] = src[i];
+        if (j == dest_limit) {
+          return j;
+        }
+        ++i;
       }
+    } else {  // Handle a leading '-'
+      dest[j++] = src[i];
+      if (j == dest_limit) {
+        return j;
+      }
+      ++i;
     }
   }
+  dest[j] = '\0';
+  return j;
 }

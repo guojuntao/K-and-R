@@ -4,6 +4,29 @@
 // would suffice (at the price of more tests outside). Write a version with only
 // one test inside the loop and measure the difference in run-time.
 
+// Old version in the book
+//
+// int binsearch(int x, int v[], int n) {
+//   int low, high, mid;
+//
+//   low = 0;
+//   high = n - 1;
+//   while (low <= high) {
+//     mid = (low + high) / 2;
+//     if (x < v[mid]) {
+//       high = mid - 1;
+//     } else if (x > v[mid]) {
+//       low = mid + 1;
+//     } else {
+//       return mid;
+//     }
+//   }
+//   return -1;
+// }
+
+// My version
+// This function search the element 'x' in the array 'v', the array's length is
+// 'n'. Return the location of element 'x'.
 int binsearch(int x, int v[], int n) {
   int low = 0;
   int high = n - 1;
